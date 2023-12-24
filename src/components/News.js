@@ -3,6 +3,8 @@ import NewsItems from './NewsItems'
 import Spinner from './Spinner';
 import PropTypes from 'prop-types'
 import InfiniteScroll from 'react-infinite-scroll-component';
+
+
 export class News extends Component {
   static defaultProps = {
     country: 'in',
@@ -27,7 +29,9 @@ export class News extends Component {
   }
   async updateNews() {
     this.props.setProgress(10);
-    const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=a8de9c15f0194f3b92cca63f6a1b4c92&page=${this.state.page}&pageSize=${this.props.pageSize}`
+    // const API_KEY = process.env.API_KEY //a8de9c15f0194f3b92cca63f6a1b4c92
+    // console.log("apikey",API_KEY)
+    const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.api_key}&page=${this.state.page}&pageSize=${this.props.pageSize}`
     this.setState({ loading: true });
     let data = await fetch(url)
     this.props.setProgress(30);
@@ -88,7 +92,7 @@ export class News extends Component {
   fetchMoreData = async () => {
 
     this.setState({ page: this.state.page + 1 })
-    const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=a8de9c15f0194f3b92cca63f6a1b4c92&page=${this.state.page}&pageSize=${this.props.pageSize}`
+    const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.api_key}&page=${this.state.page}&pageSize=${this.props.pageSize}`
     // this.setState({ loading: true });
     let data = await fetch(url)
     let parsedData = await data.json();
@@ -99,6 +103,7 @@ export class News extends Component {
       // loading: false
     })
   };
+
   render() {
     return (
       <>
@@ -125,6 +130,7 @@ export class News extends Component {
         >
           <div className="container">
             <div className="row">
+              
               {this.state.articles.map((element) => {
 
                 return <div className="col-md-4" key={element.urlToImage}>
